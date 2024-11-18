@@ -32,11 +32,32 @@ def display_progress():
     pass
 
 def play_game():
-    set_word = choose_word_easy()
+
     current_guesses = []
+
     print("Welcome to hangman! Please choose a difficulty:")
     print("Easy | Medium | Hard")
-    print()
+
+    difficulty = (input("Difficulty:")).lower()
+    valid_difficultys = ["easy", "medium", "hard"]
+    while difficulty not in valid_difficultys:
+        print("Invalid input. Please choose from easy, medium, or hard")
+        difficulty = (input("Difficulty:")).lower()
+    print(f"You have chosen {difficulty}!")
+
+    set_word = 0
+    if difficulty == "easy":
+        set_word = choose_word_easy()
+    elif difficulty == "medium":
+        set_word = choose_word_medium()
+    else:
+        set_word = choose_word_hard()
+
+    print(set_word)
+
+    
+
+    
 
 
 
