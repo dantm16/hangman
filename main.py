@@ -19,23 +19,34 @@ hard_words = ["perspective", "equilibrium", "revolution", "algorithm", "phenomen
     "disastrously", "incredible", "inspirational", "unbelievable", "procrastinate", 
     "implementation", "unpredictable", "exaggeration", "rejuvenation", "relationship"]
 
-def choose_word_easy():
-    return random.choice(easy_words)
+def set_word(dif):
+    if dif == "easy":
+        return random.choice(easy_words)
+    elif dif == "medium":
+        return random.choice(medium_words)
+    else:
+        return random.choice(hard_words)
 
-def choose_word_medium():
-    return random.choice(medium_words)
 
-def choose_word_hard():
-    return random.choice(hard_words)
+def display_progress(word, guesses):
+    word_so_far = ""
+    for char in word:
+        if char in guesses:
+            word_so_far += char
+        else:
+            word_so_far += "_"        
+    return word_so_far
 
-def display_progress():
-    pass
+def get_user_guess():
+    user_guess = input("Please enter a letter:").lower()
+    while len(user_guess) != 1:
+        print("Invalid length, please enter only a single letter.")
+        user_guess = input("Please enter a letter:").lower()
+    return user_guess  
 
 def play_game():
 
-    current_guesses = []
-
-    print("Welcome to hangman! Please choose a difficulty:")
+    print("Welcome to Hangman! Please choose a difficulty:")
     print("Easy | Medium | Hard")
 
     difficulty = (input("Difficulty:")).lower()
@@ -44,16 +55,20 @@ def play_game():
         print("Invalid input. Please choose from easy, medium, or hard")
         difficulty = (input("Difficulty:")).lower()
     print(f"You have chosen {difficulty}!")
-
-    set_word = 0
-    if difficulty == "easy":
-        set_word = choose_word_easy()
-    elif difficulty == "medium":
-        set_word = choose_word_medium()
-    else:
-        set_word = choose_word_hard()
-
-    print(set_word)
+    word = set_word(difficulty)
+    current_guesses = 0
+    guess_list = []
+    
+    print(display_progress(word, guess_list))
+    
+    while "_" in display_progress(word, guess_list):
+        guess_list.append(get_user_guess())
+        print(display_progress(word, guess_list))
+        current_guesses += 1
+    
+    print(f"Congratulations! You won in {current_guesses} guesses!")
+    
+    
 
     
 
